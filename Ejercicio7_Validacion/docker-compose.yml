@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  postgres:
+    container_name: postgres-bd
+    ports:
+      - 5432:5432
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=contrasena
+      - POSTGRES_DB=test
+    networks:
+      - mynetwork
+
+  spring-app:
+    image: spring-app
+    container_name: spring-app
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
