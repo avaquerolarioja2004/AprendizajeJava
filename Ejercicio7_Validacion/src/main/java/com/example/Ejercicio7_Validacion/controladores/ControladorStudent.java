@@ -15,18 +15,18 @@ public class ControladorStudent {
     StudentService studentService;
 
     @GetMapping("{id}")
-    public StudentOutPutDTOSimple getStudentId(@PathVariable(value = "id") int id) throws Exception {
-        return studentService.getStudentId(id);
+    public StudentOutPutDTOSimple getStudentId(@PathVariable(value = "id") int id, @RequestParam(defaultValue = "simple") String type) throws Exception {
+        return studentService.getStudentId(type,id);
     }
 
     @GetMapping("/nombre/{nombre}")
-    public List getStudentNombre(@PathVariable String nombre) throws Exception {
-        return studentService.getStudentNombre(nombre);
+    public List getStudentNombre(@PathVariable String nombre, @RequestParam(defaultValue = "simple") String type) throws Exception {
+        return studentService.getStudentNombre(type,nombre);
     }
 
     @GetMapping
-    public List getStudent() throws Exception {
-        return studentService.getStudent();
+    public List getStudent(@RequestParam(defaultValue = "simple") String type) throws Exception {
+        return studentService.getStudent(type);
     }
 
     @PostMapping
@@ -42,6 +42,11 @@ public class ControladorStudent {
     @PutMapping("{id}")
     public StudentOutPutDTOSimple updateStudent(@PathVariable int id, @RequestBody StudentInPutDTO student) throws Exception {
         return studentService.updateStudent(id, student);
+    }
+
+    @PutMapping("addAsignatura/{idAsignatura}:{idStudent}")
+    public StudentOutPutDTOSimple addAsignatura(@PathVariable int idAsignatura, @PathVariable int idStudent) throws Exception {
+        return studentService.addAsignaturaToStudent(idAsignatura, idStudent);
     }
 
 }

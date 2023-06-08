@@ -54,6 +54,12 @@ public class Persona {
         p.setSurname(this.getSurname());
         p.setCompany_email(this.getCompany_email());
         p.setImagen_url(this.getImagen_url());
+        p.setCreated_date(this.getCreated_date());
+        p.setTermination_date(this.getTermination_date());
+        p.setActive(this.getActive());
+        p.setCity(this.getCity());
+        p.setPersonal_email(this.getPersonal_email());
+        p.setPassword(this.getPassword());
         return p;
     }
 

@@ -1,5 +1,6 @@
 package com.example.Ejercicio7_Validacion.student;
 
+import com.example.Ejercicio7_Validacion.asignatura.Asignatura;
 import com.example.Ejercicio7_Validacion.persona.Persona;
 import com.example.Ejercicio7_Validacion.profesor.Profesor;
 import com.example.Ejercicio7_Validacion.student.dto.StudentOutPutDTOFull;
@@ -7,6 +8,8 @@ import com.example.Ejercicio7_Validacion.student.dto.StudentOutPutDTOSimple;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -27,6 +30,8 @@ public class Student {
     @NotNull
     String branch;
     String coments;
+    @ManyToMany
+    List<Asignatura> asignaturas;
 
     public StudentOutPutDTOSimple cambiaFormasStudent(String type,Persona persona, Profesor profesor) {
         if (type.equals("full")){

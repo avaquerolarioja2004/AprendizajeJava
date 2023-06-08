@@ -28,7 +28,7 @@ public class PersonaServiceImpl implements PersonaService{
             throw new UnprocessableEntityException("Usuario no puede ser null | Longitud de usuario no puede ser superior a 10 caracteres ni inferior a 6 caracteres");
         }
         if (persona.getPassword() == null) {
-            throw new EntityNotFoundException("Longitud de password no puede ser null");
+            throw new EntityNotFoundException("Password no puede ser null");
         }
         if (persona.getCompany_email() == null) {
             throw new EntityNotFoundException("El email de la empresa no puede ser null");
@@ -37,7 +37,7 @@ public class PersonaServiceImpl implements PersonaService{
             throw new EntityNotFoundException("El email personal no puede ser null");
         }
         if (persona.getCity() == null) {
-            throw new EntityNotFoundException("Longitud de ciudad no puede ser null");
+            throw new EntityNotFoundException("Ciudad no puede ser null");
         }
         if (persona.getActive() == null) {
             throw new EntityNotFoundException("El campo active no puede ser null");

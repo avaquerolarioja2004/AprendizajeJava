@@ -1,6 +1,10 @@
 package com.example.Ejercicio7_Validacion.student.services;
 
+import com.example.Ejercicio7_Validacion.asignatura.Asignatura;
+import com.example.Ejercicio7_Validacion.asignatura.services.AsignaturaRepository;
+import com.example.Ejercicio7_Validacion.asignatura.services.AsignaturaService;
 import com.example.Ejercicio7_Validacion.persona.services.PersonaService;
+import com.example.Ejercicio7_Validacion.profesor.Profesor;
 import com.example.Ejercicio7_Validacion.profesor.services.ProfesorService;
 import com.example.Ejercicio7_Validacion.student.Student;
 import com.example.Ejercicio7_Validacion.student.dto.StudentInPutDTO;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StudentServiceImp implements StudentService {
@@ -23,11 +28,16 @@ public class StudentServiceImp implements StudentService {
     @Autowired
     private ProfesorService profesorService;
 
+    @Autowired
+    private AsignaturaRepository asignaturaRepository;
+
     @Override
     public StudentOutPutDTOSimple addStudent(StudentInPutDTO student) throws Exception {
         Student s = student.cambiarFormasStudent();
         s.setPersona(personaService.getPersonaId(student.getId_persona()).cambiaFormasPersona());
-        s.setProfesor(profesorService.getProfesorId(student.getId_profesor()).cambiaFormasProfesor());
+        Profesor p = profesorService.getProfesorId(student.getId_profesor()).cambiaFormasProfesor();
+        p.setId_persona(personaService.getPersonaId(student.getId_persona()).cambiaFormasPersona());
+        s.setProfesor(p);
         studentRepository.save(s);
         return new StudentOutPutDTOSimple(s.getId_student(),s.getPersona().cambiaFormasOut(),s.getProfesor().cambiaFormasProfesor(),s.getBranch());
     }
@@ -57,19 +67,19 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public StudentOutPutDTOSimple getStudentId(int id) throws Exception {
+    public StudentOutPutDTOSimple getStudentId(String type,int id) throws Exception {
         Student s = studentRepository.findById(id).orElseThrow(
                 () -> new Exception("No se ha encontrado el estudiante con id: " + id)
         );
-        return s.cambiaFormasStudent("simple",s.getPersona(),s.getProfesor());
+        return s.cambiaFormasStudent(type,s.getPersona(),s.getProfesor());
     }
 
     @Override
-    public List getStudentNombre(String nombre) throws Exception {
+    public List getStudentNombre(String type,String nombre) throws Exception {
         List<StudentOutPutDTOSimple> s = new ArrayList<>();
         for (Student student : studentRepository.findAll()) {
             if (student.getPersona().getName().equals(nombre)) {
-                s.add(student.cambiaFormasStudent("simple",student.getPersona(),student.getProfesor()));
+                s.add(student.cambiaFormasStudent(type,student.getPersona(),student.getProfesor()));
             }
         }
         if (s.isEmpty()) {
@@ -80,11 +90,11 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public List getStudent() throws Exception {
+    public List getStudent(String type) throws Exception {
         List<StudentOutPutDTOSimple> s = new ArrayList<>();
         List<Student> lista = studentRepository.findAll();
         for (Student student :lista) {
-            StudentOutPutDTOSimple studentOutPutDTOSimple = student.cambiaFormasStudent("simple",student.getPersona(),student.getProfesor());
+            StudentOutPutDTOSimple studentOutPutDTOSimple = student.cambiaFormasStudent(type,student.getPersona(),student.getProfesor());
             s.add(studentOutPutDTOSimple);
         }
         if (s.isEmpty()) {
@@ -92,5 +102,24 @@ public class StudentServiceImp implements StudentService {
         }else {
             return s;
         }
+    }
+
+    @Override
+    public StudentOutPutDTOSimple addAsignaturaToStudent(int idStudent, int idAsignatura) throws Exception {
+        Asignatura a=asignaturaRepository.findById(idAsignatura).orElseThrow(
+                () -> new Exception("No se ha encontrado la asignatura con id: " + idAsignatura)
+        );
+        Student s=studentRepository.findById(idStudent).orElseThrow(
+                () -> new Exception("No se ha encontrado el estudiante con id: " + idStudent)
+        );
+        List<Asignatura> asignaturas=s.getAsignaturas();
+        asignaturas.add(a);
+        s.setAsignaturas(asignaturas);
+        studentRepository.save(s);
+        List<Student> students=a.getEstudiantes();
+        students.add(s);
+        a.setEstudiantes(students);
+        asignaturaRepository.save(a);
+        return s.cambiaFormasStudent("simple",s.getPersona(),s.getProfesor());
     }
 }

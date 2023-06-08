@@ -11,21 +11,33 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PersonaOutPutDTO {
-    int id;
-    String usuario;
-    String name;
-    String surname;
-    String company_email;
-    String imagen_url;
+    private int id;
+    private String usuario;
+    private String password;
+    private String name;
+    private String surname;
+    private String company_email;
+    private String personal_email;
+    private String city;
+    private Boolean active;
+    private Date created_date;
+    private String imagen_url;
+    private Date termination_date;
 
     public Persona cambiaFormasPersona() {
         Persona persona = new Persona();
-        persona.setId_persona(this.id);
-        persona.setUsuario(this.usuario);
-        persona.setName(this.name);
-        persona.setSurname(this.surname);
-        persona.setCompany_email(this.company_email);
-        persona.setImagen_url(this.imagen_url);
+        persona.setId_persona(this.getId());
+        persona.setUsuario(this.getUsuario());
+        persona.setSurname(this.getSurname());
+        persona.setPassword(this.getPassword());
+        persona.setName(this.getName());
+        persona.setCompany_email(this.getCompany_email());
+        persona.setPersonal_email(this.getPersonal_email());
+        persona.setCity(this.getCity());
+        persona.setActive(this.getActive());
+        persona.setCreated_date(this.getCreated_date());
+        persona.setImagen_url(this.getImagen_url());
+        persona.setTermination_date(this.getTermination_date());
         return persona;
     }
 

@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/persona")
+@CrossOrigin(origins = "*")
+//@RequestMapping("/api/persona")
 public class ControladorPersona {
 
     @Autowired
@@ -24,12 +25,12 @@ public class ControladorPersona {
         return personaService.getPersonaNombre(nombre);
     }
 
-    @GetMapping
+    @GetMapping("getall")
     public List getPersona() throws Exception {
         return personaService.getPersona();
     }
 
-    @PostMapping
+    @PostMapping("addperson")
     public PersonaOutPutDTO addPersona(@RequestBody PersonaInPutDTO persona) throws Exception {
         return personaService.addPersona(persona);
     }
