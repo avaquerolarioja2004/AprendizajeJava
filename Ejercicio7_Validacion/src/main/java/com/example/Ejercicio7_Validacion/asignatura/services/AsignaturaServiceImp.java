@@ -98,12 +98,15 @@ public class AsignaturaServiceImp implements AsignaturaService{
         Student student=studentRepository.findById(idStudent).orElseThrow(()->new Exception("Estudiante no encontrado"));
         List<Student> students= asignatura.getEstudiantes();
         List<Asignatura> asignaturas= student.getAsignaturas();
+        if(asignaturas.contains(asignatura) | students.contains(student)){
+            throw new Exception("El estudiante ya esta matriculado en la asignatura");
+        }
         students.add(student);
         asignatura.setEstudiantes(students);
         asignaturaRepository.save(asignatura);
         asignaturas.add(asignatura);
         student.setAsignaturas(asignaturas);
         studentRepository.save(student);
-        return new AsignaturaOutPutSimpleDTO(asignatura);
+        return new AsignaturaOutPutFullDTO(asignatura);
     }
 }

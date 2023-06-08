@@ -113,13 +113,16 @@ public class StudentServiceImp implements StudentService {
                 () -> new Exception("No se ha encontrado el estudiante con id: " + idStudent)
         );
         List<Asignatura> asignaturas=s.getAsignaturas();
-        asignaturas.add(a);
-        s.setAsignaturas(asignaturas);
-        studentRepository.save(s);
         List<Student> students=a.getEstudiantes();
+        if(asignaturas.contains(a) | students.contains(s)){
+            throw new Exception("El estudiante ya esta matriculado en la asignatura");
+        }
+        asignaturas.add(a);
         students.add(s);
+        s.setAsignaturas(asignaturas);
         a.setEstudiantes(students);
+        studentRepository.save(s);
         asignaturaRepository.save(a);
-        return s.cambiaFormasStudent("simple",s.getPersona(),s.getProfesor());
+        return s.cambiaFormasStudent("full",s.getPersona(),s.getProfesor());
     }
 }
