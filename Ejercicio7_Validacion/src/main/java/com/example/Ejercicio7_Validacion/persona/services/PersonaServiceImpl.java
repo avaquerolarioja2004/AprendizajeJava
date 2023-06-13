@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class PersonaServiceImpl implements PersonaService{
     @Autowired
     private PersonaRepository personaRepository;
+
+    @Autowired
+    private PersonaReposioryImp personaReposioryImp;
 
     @Override
     public PersonaOutPutDTO addPersona(PersonaInPutDTO persona) throws Exception {
@@ -120,5 +122,10 @@ public class PersonaServiceImpl implements PersonaService{
         } else {
             return personasEncontradas;
         }
+    }
+
+    @Override
+    public List getPersonaCustomQuery(String ordenar, String paramOrdenar, HashMap<String, Object> parametros, int pagina, int limite) {
+        return personaReposioryImp.getPersonaCustomQuery(ordenar, paramOrdenar, parametros, pagina, limite);
     }
 }

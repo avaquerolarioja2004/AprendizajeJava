@@ -4,6 +4,8 @@ import com.example.Ejercicio7_Validacion.persona.dto.PersonaInPutDTO;
 import com.example.Ejercicio7_Validacion.persona.dto.PersonaOutPutDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 public interface PersonaService {
     public PersonaOutPutDTO addPersona(PersonaInPutDTO persona) throws Exception;
@@ -12,4 +14,5 @@ public interface PersonaService {
     public PersonaOutPutDTO getPersonaId(int id) throws Exception;
     public List getPersonaNombre(String nombre) throws Exception;
     public List getPersona() throws Exception;
+    public List getPersonaCustomQuery(String ordenar,String paramOrdenar, HashMap<String, Object> parametros, int pagina, int cantidad) throws Exception;
 }
