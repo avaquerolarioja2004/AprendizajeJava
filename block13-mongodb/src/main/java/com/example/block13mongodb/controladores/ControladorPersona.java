@@ -1,9 +1,9 @@
-package com.example.Ejercicio7_Validacion.controladores;
+package com.example.block13mongodb.controladores;
 
-import com.example.Ejercicio7_Validacion.persona.Persona;
-import com.example.Ejercicio7_Validacion.persona.dto.PersonaInPutDTO;
-import com.example.Ejercicio7_Validacion.persona.dto.PersonaOutPutDTO;
-import com.example.Ejercicio7_Validacion.persona.services.PersonaService;
+import com.example.block13mongodb.persona.Persona;
+import com.example.block13mongodb.persona.dto.PersonaInPutDTO;
+import com.example.block13mongodb.persona.dto.PersonaOutPutDTO;
+import com.example.block13mongodb.persona.services.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +21,8 @@ public class ControladorPersona {
     PersonaService personaService;
 
     @GetMapping("{id}")
-    public PersonaOutPutDTO getPersonaId(@PathVariable(value = "id") int id) throws Exception {
-        return personaService.getPersonaId(id);
+    public PersonaOutPutDTO getPersonaId(@PathVariable(value = "_id") int _id) throws Exception {
+        return personaService.getPersonaId(_id);
     }
 
     @GetMapping("nombre/{nombre}")
